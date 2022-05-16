@@ -38,7 +38,7 @@ export default function ListPost({ articles }:IProps) {
             <AppBreadCrumbs />
             <Box>
                 <div className={styles.card}>
-                    <Link href="posts/first-post">
+                    <Link href="/posts/first-post">
                         <h2>First post &rarr;</h2>
                     </Link>
                 </div>

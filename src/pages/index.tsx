@@ -35,7 +35,7 @@ const Home: NextPage = () => {
                 <div className={styles.grid}>
 
                     <div className={styles.card}>
-                        <Link href="posts/list">
+                        <Link href="/posts/list">
                             <h2>Post &rarr;</h2>
                         </Link>
                     </div>
