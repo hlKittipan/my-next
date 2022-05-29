@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from "@mui/material/Button";
 import {NextPage} from "next";
+
 /* middleware */
 import {
     absoluteUrl,
@@ -42,6 +43,7 @@ const FORM_DATA_LOGIN = {
 };
 
 const LoginForm: NextPage = () => {
+
     return (
         <Layout>
             <section>
