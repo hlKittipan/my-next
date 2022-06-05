@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import {SessionProvider} from "next-auth/react"
 import type {AppProps} from 'next/app'
 import {CacheProvider, EmotionCache} from '@emotion/react';
 import createEmotionCache from "@/plugins/createEmotionCache";
@@ -16,7 +17,7 @@ interface MyAppProps extends AppProps {
 }
 
 const App = (props: MyAppProps) => {
-    const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+    const {Component, emotionCache = clientSideEmotionCache, pageProps} = props;
     const [mode, setMode] = React.useState<'light' | 'dark'>('light');
     const colorMode = React.useMemo(
         () => ({
@@ -36,15 +37,17 @@ const App = (props: MyAppProps) => {
         [mode],
     );
     return (
-        <CacheProvider value={emotionCache}>
-            <AppHead />
-            <ColorModeContext.Provider value={colorMode}>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <Component {...pageProps} />
-                </ThemeProvider>
-            </ColorModeContext.Provider>
-        </CacheProvider>
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+            <CacheProvider value={emotionCache}>
+                <AppHead/>
+                <ColorModeContext.Provider value={colorMode}>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline/>
+                        <Component {...pageProps} />
+                    </ThemeProvider>
+                </ColorModeContext.Provider>
+            </CacheProvider>
+        </SessionProvider>
     )
 }
 
