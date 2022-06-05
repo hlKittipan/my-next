@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type {NextPage} from 'next'
-import styles from '../styles/Home.module.css'
+import styles from '@/styles/Home.module.css'
 import {styled} from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Link from 'next/link'
