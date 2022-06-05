@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
+import { useSession, signIn, signOut } from "next-auth/react"
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
@@ -21,11 +22,15 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-export const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = React.createContext({
+    toggleColorMode: () => {
+    }
+});
 
 export const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const { data: session } = useSession()
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -133,18 +138,23 @@ export const ResponsiveAppBar = () => {
                                 </Badge>
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="Open settings">
+                        {session?.user && (
+                            <Tooltip title="Open settings">
                             <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-haspopup="true"
-                                onClick={handleOpenUserMenu}
-                                color="inherit"
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-haspopup="true"
+                            onClick={handleOpenUserMenu}
+                            color="inherit"
                             >
-                                <AccountCircle/>
+                            <AccountCircle/>
                             </IconButton>
-                        </Tooltip>
+                            </Tooltip>
+                        ) }
+                        { !session && (
+                            <Button color="inherit" onClick={() => signIn()}>Login</Button>
+                        )}
                         <Tooltip title={theme.palette.mode + " Mode"}>
                             <IconButton sx={{ml: 1}} onClick={colorMode.toggleColorMode} color="inherit">
                                 {theme.palette.mode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}

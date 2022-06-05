@@ -17,7 +17,7 @@ interface MyAppProps extends AppProps {
 }
 
 const App = (props: MyAppProps) => {
-    const {Component, emotionCache = clientSideEmotionCache, pageProps} = props;
+    const {Component, emotionCache = clientSideEmotionCache, pageProps: { session, ...pageProps }} = props;
     const [mode, setMode] = React.useState<'light' | 'dark'>('light');
     const colorMode = React.useMemo(
         () => ({

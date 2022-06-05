@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from "@mui/material/Button";
 import {NextPage} from "next";
+import {getCsrfToken} from "next-auth/react"
 
 /* middleware */
 import {
@@ -14,6 +15,8 @@ import {
     verifyToken,
     setLogout,
 } from '@/utils/middleware';
+import {CtxOrReq} from "next-auth/client/_utils";
+
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 /* login schemas */
@@ -42,7 +45,8 @@ const FORM_DATA_LOGIN = {
     },
 };
 
-const LoginForm: NextPage = () => {
+// @ts-ignore
+const SignIn: NextPage = ({csrfToken}) => {
 
     return (
         <Layout>
@@ -66,25 +70,28 @@ const LoginForm: NextPage = () => {
                             <Typography gutterBottom variant="h5" component="div">
                                 Login
                             </Typography>
-                            <div>
-                                <TextField
-                                    required
-                                    id="username"
-                                    label="Username or E-mail"
-                                    variant="standard"
-                                />
-                                <TextField
-                                    id="password"
-                                    label="Password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    variant="standard"
-                                />
-                            </div>
-                            <ButtonGroup variant="text" aria-label="text button group">
-                                <Button>Login</Button>
-                                <Button>Register</Button>
-                            </ButtonGroup>
+                            <form method="post" action="/api/auth/callback/credentials">
+                                <input name="csrfToken" type="hidden" defaultValue={csrfToken}/>
+                                <div>
+                                    <TextField
+                                        required
+                                        id="username"
+                                        label="Username or E-mail"
+                                        variant="standard"
+                                    />
+                                    <TextField
+                                        id="password"
+                                        label="Password"
+                                        type="password"
+                                        autoComplete="current-password"
+                                        variant="standard"
+                                    />
+                                </div>
+                                <ButtonGroup variant="text" aria-label="text button group">
+                                    <Button>Login</Button>
+                                    <Button>Register</Button>
+                                </ButtonGroup>
+                            </form>
                         </CardContent>
                     </Card>
                 </Box>
@@ -93,4 +100,12 @@ const LoginForm: NextPage = () => {
     )
 }
 
-export default LoginForm
+export default SignIn
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            csrfToken: await getCsrfToken(context),
+        },
+    }
+}
