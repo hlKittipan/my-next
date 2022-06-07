@@ -26,8 +26,8 @@
       "@/uploads/*": ["src/uploads/*"],
       "@/services/*": ["src/services/*"],
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
-    }
+    },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["process.d.ts", "next-env.d.ts", "next-auth.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

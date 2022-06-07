@@ -19,32 +19,6 @@ import {CtxOrReq} from "next-auth/client/_utils";
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-/* login schemas */
-const FORM_DATA_LOGIN = {
-    email: {
-        value: '',
-        label: 'Email',
-        min: 10,
-        max: 36,
-        required: true,
-        validator: {
-            regEx: emailRegEx,
-            error: 'Please insert valid email',
-        },
-    },
-    password: {
-        value: '',
-        label: 'Password',
-        min: 6,
-        max: 36,
-        required: true,
-        validator: {
-            regEx: /^[a-z\sA-Z0-9\W\w]+$/,
-            error: 'Please insert valid password',
-        },
-    },
-};
-
 // @ts-ignore
 const SignIn: NextPage = ({csrfToken}) => {
 
@@ -102,7 +76,7 @@ const SignIn: NextPage = ({csrfToken}) => {
 
 export default SignIn
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: CtxOrReq | undefined) {
     return {
         props: {
             csrfToken: await getCsrfToken(context),

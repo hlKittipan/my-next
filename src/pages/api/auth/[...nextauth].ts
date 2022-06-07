@@ -1,25 +1,13 @@
 import NextAuth from "next-auth"
-// import GoogleProvider from "next-auth/providers/google"
-// import FacebookProvider from "next-auth/providers/facebook"
-// import GithubProvider from "next-auth/providers/github"
-// import TwitterProvider from "next-auth/providers/twitter"
-// import Auth0Provider from "next-auth/providers/auth0"
+import GoogleProvider from "next-auth/providers/google"
+import FacebookProvider from "next-auth/providers/facebook"
+import GithubProvider from "next-auth/providers/github"
+import TwitterProvider from "next-auth/providers/twitter"
+import Auth0Provider from "next-auth/providers/auth0"
+import CredentialsProvider from "next-auth/providers/credentials"
 // import AppleProvider from "next-auth/providers/apple"
 // import EmailProvider from "next-auth/providers/email"
-import CredentialsProvider from "next-auth/providers/credentials"
-interface IUser {
-    username: string,
-    name: string
-}
-interface IToken {
-    token: {
-        userRole: string
-        user: IUser
-    },
-    session: {
-        user: IUser
-    }
-}
+
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 // @ts-ignore
@@ -43,27 +31,27 @@ export default NextAuth({
           },
         }),
         */
-        // FacebookProvider({
-        //     clientId: process.env.FACEBOOK_ID,
-        //     clientSecret: process.env.FACEBOOK_SECRET,
-        // }),
-        // GithubProvider({
-        //     clientId: process.env.GITHUB_ID,
-        //     clientSecret: process.env.GITHUB_SECRET,
-        // }),
-        // GoogleProvider({
-        //     clientId: process.env.GOOGLE_ID,
-        //     clientSecret: process.env.GOOGLE_SECRET,
-        // }),
-        // TwitterProvider({
-        //     clientId: process.env.TWITTER_ID,
-        //     clientSecret: process.env.TWITTER_SECRET,
-        // }),
-        // Auth0Provider({
-        //     clientId: process.env.AUTH0_ID,
-        //     clientSecret: process.env.AUTH0_SECRET,
-        //     issuer: process.env.AUTH0_ISSUER,
-        // }),
+        FacebookProvider({
+            clientId: process.env.FACEBOOK_ID,
+            clientSecret: process.env.FACEBOOK_SECRET,
+        }),
+        GithubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET,
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_ID,
+            clientSecret: process.env.GOOGLE_SECRET,
+        }),
+        TwitterProvider({
+            clientId: process.env.TWITTER_ID,
+            clientSecret: process.env.TWITTER_SECRET,
+        }),
+        Auth0Provider({
+            clientId: process.env.AUTH0_ID,
+            clientSecret: process.env.AUTH0_SECRET,
+            issuer: process.env.AUTH0_ISSUER,
+        }),
         CredentialsProvider({
             // The name to display on the sign in form (e.g. 'Sign in with...')
             name: 'Credentials',
@@ -102,11 +90,11 @@ export default NextAuth({
         colorScheme: "dark",
     },
     callbacks: {
-        async jwt({ token } : IToken) {
+        async jwt({ token }) {
             token.userRole = "admin"
             return token
         },
-        session: async ({ session, token }: IToken) => {
+        session: async ({ session, token }) => {
             session.user = token.user;  // Setting token in session
             return session;
         },
