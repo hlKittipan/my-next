@@ -7,7 +7,19 @@ import Auth0Provider from "next-auth/providers/auth0"
 import CredentialsProvider from "next-auth/providers/credentials"
 // import AppleProvider from "next-auth/providers/apple"
 // import EmailProvider from "next-auth/providers/email"
-
+interface IUser {
+    username: string,
+    name: string
+}
+interface IToken {
+    token: {
+        userRole: string
+        user: IUser
+    },
+    session: {
+        user: IUser
+    }
+}
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 // @ts-ignore
@@ -90,11 +102,11 @@ export default NextAuth({
         colorScheme: "dark",
     },
     callbacks: {
-        async jwt({ token }) {
+        async jwt({ token } : IToken) {
             token.userRole = "admin"
             return token
         },
-        session: async ({ session, token }) => {
+        session: async ({ session, token }: IToken) => {
             session.user = token.user;  // Setting token in session
             return session;
         },
