@@ -115,4 +115,5 @@ export default NextAuth({
         signIn: '/auth/signin',
         error: '/auth/signin', // Error code passed in query string as ?error=
     },
+    secret: process.env.JWT_SECRET,
 })
