@@ -9,21 +9,36 @@ import CredentialsProvider from "next-auth/providers/credentials"
 // import EmailProvider from "next-auth/providers/email"
 interface IUser {
     email: string,
-    name: string
+    name: string,
+    token: string,
+    refresh_token: string,
+    userRole: string
 }
 interface IToken {
     token: {
-        userRole: string
-        user: IUser
+        token: string
+        name: string,
+        email: string,
+        picture: string,
+        sub: string
     },
     session: {
         user: IUser
     },
-    user: IUser,
     account: IUser,
+    message: string,
+    success: boolean,
+    user: IUser,
+}
+
+interface IAccount {
+    message: string,
+    success: boolean,
+    user: IUser,
 }
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
+// @ts-ignore
 // @ts-ignore
 export default NextAuth({
     // https://next-auth.js.org/configuration/providers/oauth
@@ -90,7 +105,6 @@ export default NextAuth({
                     headers: { "Content-Type": "application/json" }
                 })
                 const user = await res.json()
-                console.log(user);
                 // If no error and we have user data, return it
                 if (res.ok && user) {
                     return user
@@ -104,14 +118,17 @@ export default NextAuth({
         colorScheme: "dark",
     },
     callbacks: {
-        async jwt({ token, account } : IToken) {
-            console.log(account);
-            token.userRole = "admin"
-            return token
+        async jwt({ token, user }: IToken) {
+            console.log('account ');
+            console.log(user);
+            // console.log(token);
+            // token.userRole = "admin"
+            return user
         },
         session: async ({ session, token, user }: IToken) => {
+            console.log('session ');
             console.log(session, token, user);
-            session.user = token.user;  // Setting token in session
+            // session.user = token.user;  // Setting token in session
             return session;
         },
     },
