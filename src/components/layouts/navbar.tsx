@@ -21,7 +21,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Dashboard'];
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {
     }
@@ -138,7 +138,7 @@ export const ResponsiveAppBar = () => {
                                 </Badge>
                             </IconButton>
                         </Tooltip>
-                        {session?.user && (
+                        {session && (
                             <Tooltip title="Open settings">
                             <IconButton
                             size="large"
@@ -181,6 +181,9 @@ export const ResponsiveAppBar = () => {
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
+                            <MenuItem onClick={() => signOut()}>
+                                <Typography textAlign="center">Logout</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

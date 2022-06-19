@@ -8,7 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 // import AppleProvider from "next-auth/providers/apple"
 // import EmailProvider from "next-auth/providers/email"
 interface IUser {
-    username: string,
+    email: string,
     name: string
 }
 interface IToken {
@@ -18,7 +18,9 @@ interface IToken {
     },
     session: {
         user: IUser
-    }
+    },
+    user: IUser,
+    account: IUser,
 }
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -72,7 +74,7 @@ export default NextAuth({
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
             credentials: {
-                username: { label: "Username", type: "text", placeholder: "jsmith" },
+                email: { label: "Email", type: "text", placeholder: "user@user.com" },
                 password: {  label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
@@ -82,13 +84,13 @@ export default NextAuth({
                 // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
                 // You can also use the `req` object to obtain additional parameters
                 // (i.e., the request IP address)
-                const res = await fetch("/your/endpoint", {
+                const res = await fetch(process.env.END_POINT + "/login", {
                     method: 'POST',
                     body: JSON.stringify(credentials),
                     headers: { "Content-Type": "application/json" }
                 })
                 const user = await res.json()
-
+                console.log(user);
                 // If no error and we have user data, return it
                 if (res.ok && user) {
                     return user
@@ -102,18 +104,20 @@ export default NextAuth({
         colorScheme: "dark",
     },
     callbacks: {
-        async jwt({ token } : IToken) {
+        async jwt({ token, account } : IToken) {
+            console.log(account);
             token.userRole = "admin"
             return token
         },
-        session: async ({ session, token }: IToken) => {
+        session: async ({ session, token, user }: IToken) => {
+            console.log(session, token, user);
             session.user = token.user;  // Setting token in session
             return session;
         },
     },
     pages: {
-        signIn: '/auth/signin',
-        error: '/auth/signin', // Error code passed in query string as ?error=
+        // signIn: '/auth/signin',
+        // error: '/auth/signin', // Error code passed in query string as ?error=
     },
     secret: process.env.JWT_SECRET,
 })
