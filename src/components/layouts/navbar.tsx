@@ -30,7 +30,10 @@ export const ColorModeContext = React.createContext({
 export const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
+    if (status === "authenticated") {
+        console.log('Auth')
+    }
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -138,7 +141,7 @@ export const ResponsiveAppBar = () => {
                                 </Badge>
                             </IconButton>
                         </Tooltip>
-                        {session && (
+                        {session?.user && (
                             <Tooltip title="Open settings">
                             <IconButton
                             size="large"

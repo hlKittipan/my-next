@@ -20,7 +20,8 @@ interface IToken {
         name: string,
         email: string,
         picture: string,
-        sub: string
+        sub: string,
+        user: IUser,
     },
     session: {
         user: IUser
@@ -104,10 +105,10 @@ export default NextAuth({
                     body: JSON.stringify(credentials),
                     headers: { "Content-Type": "application/json" }
                 })
-                const user = await res.json()
+                const data = await res.json()
                 // If no error and we have user data, return it
-                if (res.ok && user) {
-                    return user
+                if (res.ok && data) {
+                    return data.user
                 }
                 // Return null if user data could not be retrieved
                 return null
@@ -118,17 +119,12 @@ export default NextAuth({
         colorScheme: "dark",
     },
     callbacks: {
-        async jwt({ token, user }: IToken) {
-            console.log('account ');
-            console.log(user);
-            // console.log(token);
-            // token.userRole = "admin"
-            return user
+        async jwt({ token, user }: any) {
+            user && (token.user = user);
+            return token
         },
-        session: async ({ session, token, user }: IToken) => {
-            console.log('session ');
-            console.log(session, token, user);
-            // session.user = token.user;  // Setting token in session
+        session: async ({ session, token, user }: any) => {
+            session.user = token.user;  // Setting token in session
             return session;
         },
     },

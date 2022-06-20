@@ -17,7 +17,7 @@ interface MyAppProps extends AppProps {
 }
 
 const App = (props: MyAppProps) => {
-    const {Component, emotionCache = clientSideEmotionCache, pageProps: { session, ...pageProps }} = props;
+    const {Component, emotionCache = clientSideEmotionCache, pageProps: { session, JWT, ...pageProps }} = props;
     const [mode, setMode] = React.useState<'light' | 'dark'>('light');
     const colorMode = React.useMemo(
         () => ({
@@ -27,6 +27,7 @@ const App = (props: MyAppProps) => {
         }),
         [],
     );
+
     const theme = React.useMemo(
         () =>
             createTheme({
@@ -36,8 +37,9 @@ const App = (props: MyAppProps) => {
             }),
         [mode],
     );
+
     return (
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <SessionProvider session={session} refetchInterval={0}>
             <CacheProvider value={emotionCache}>
                 <AppHead/>
                 <ColorModeContext.Provider value={colorMode}>

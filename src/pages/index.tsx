@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import Link from 'next/link'
 import {Layout, siteTitle} from "@/components/layouts";
 import Box from '@mui/material/Box';
+import { getSession } from "next-auth/react";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -74,3 +75,11 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getServerSideProps(ctx: any) {
+    return {
+        props: {
+            session: await getSession(ctx)
+        }
+    }
+}
