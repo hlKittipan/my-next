@@ -23,12 +23,15 @@ import {User} from "@/types/user";
 import {AppState} from "@/stores/app";
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard'];
+import { useRouter } from 'next/router'
+
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {
     }
 });
 
 export const ResponsiveAppBar = () => {
+    const router = useRouter()
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const isAuthed = useSelector((state: AppState) => state.isAuthed);
@@ -55,10 +58,6 @@ export const ResponsiveAppBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
-    const signIn = () => {
-        console.log('signIn');
-    }
 
     const signOut = () => {
         console.log('signIn');
@@ -167,7 +166,7 @@ export const ResponsiveAppBar = () => {
                             </Tooltip>
                         ) }
                         { !session && (
-                            <Button color="inherit" onClick={() => signIn()}>Login</Button>
+                            <Button color="inherit" onClick={() => router.push('/login')}>Login</Button>
                         )}
                         <Tooltip title={theme.palette.mode + " Mode"}>
                             <IconButton sx={{ml: 1}} onClick={colorMode.toggleColorMode} color="inherit">
