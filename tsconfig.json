@@ -25,6 +25,8 @@
       "@/interfaces/*": ["src/interfaces/*"],
       "@/uploads/*": ["src/uploads/*"],
       "@/services/*": ["src/services/*"],
+      "@/stores/*": ["src/stores/*"],
+      "@/types/*": ["src/types/*"],
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
     },
   },

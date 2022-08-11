@@ -6,16 +6,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from "@mui/material/Button";
 import {NextPage} from "next";
-import {getCsrfToken} from "next-auth/react"
-
-/* middleware */
-import {
-    absoluteUrl,
-    getAppCookies,
-    verifyToken,
-    setLogout,
-} from '@/utils/middleware';
-import {CtxOrReq} from "next-auth/client/_utils";
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -75,11 +65,3 @@ const SignIn: NextPage = ({csrfToken}) => {
 }
 
 export default SignIn
-
-export async function getServerSideProps(context: CtxOrReq | undefined) {
-    return {
-        props: {
-            csrfToken: await getCsrfToken(context),
-        },
-    }
-}

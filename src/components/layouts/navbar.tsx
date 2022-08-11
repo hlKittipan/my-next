@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import { useSession, signIn, signOut } from "next-auth/react"
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
@@ -18,8 +17,10 @@ import Badge from '@mui/material/Badge';
 import {useTheme, ThemeProvider, createTheme} from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-
-
+import { useSelector } from 'react-redux';
+import {UserState} from "@/stores/user";
+import {User} from "@/types/user";
+import {AppState} from "@/stores/app";
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard'];
 export const ColorModeContext = React.createContext({
@@ -30,8 +31,10 @@ export const ColorModeContext = React.createContext({
 export const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const { data: session, status } = useSession()
-    if (status === "authenticated") {
+    const isAuthed = useSelector((state: AppState) => state.isAuthed);
+    const session = false;
+    const user: User | undefined = useSelector((state: UserState) => state.user);
+    if (isAuthed) {
         console.log('Auth')
     }
 
@@ -52,6 +55,14 @@ export const ResponsiveAppBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const signIn = () => {
+        console.log('signIn');
+    }
+
+    const signOut = () => {
+        console.log('signIn');
+    }
 
     return (
         <AppBar position="static">
@@ -141,7 +152,7 @@ export const ResponsiveAppBar = () => {
                                 </Badge>
                             </IconButton>
                         </Tooltip>
-                        {session?.user && (
+                        {user && (
                             <Tooltip title="Open settings">
                             <IconButton
                             size="large"
