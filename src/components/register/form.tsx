@@ -12,10 +12,14 @@ const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 
 export const RegisterForm: FC = () => {
     const router = useRouter()
+    const [isPasswordMatch, setIsPasswordMatch] = useState(true)
+    const [isEmailFormat, setIsEmailFormat] = useState(true)
+    const [isHasName, setIsHasName] = useState(true)
     const [form, setForm] = useState({
-        username: "",
+        name: "",
         email: "",
-        password: ""
+        password: "",
+        confirmPassword: ""
     })
     const handleChange = (event: {
         target: {
@@ -23,7 +27,7 @@ export const RegisterForm: FC = () => {
             value: string;
         };
     }) => {
-        console.log(event)
+        resetValidation()
         const newValue = event.target.value;
         const inputValue = event.target.name;
         setForm(preValue => {
@@ -33,27 +37,48 @@ export const RegisterForm: FC = () => {
             }
         })
     }
+
     const handleRegister = () => {
         console.log(form)
+        if (form.name) {
+            setIsHasName(false)
+            return false
+        }
+        if (!emailRegEx.test(form.email)) {
+            setIsEmailFormat(false)
+            return false
+        }
+        if (form.password !== form.confirmPassword) {
+            setIsPasswordMatch(false)
+            return false
+        }
         apiCallPost('/register', form).then(r => console.log(r));
+    }
+
+    const resetValidation = () => {
+        setIsEmailFormat(true)
+        setIsPasswordMatch(true)
+        setIsHasName(true)
     }
     return (
         <Card sx={{maxWidth: 345}} style={{textAlign: 'center'}}>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    Login
+                    Register
                 </Typography>
                 <div>
                     <TextField
                         required
-                        id="username"
-                        name="username"
-                        label="Username"
+                        error={!isHasName}
+                        id="name"
+                        name="name"
+                        label="Name"
                         variant="standard"
                         onChange={handleChange}
                     />
                     <TextField
                         required
+                        error={!isEmailFormat}
                         id="email"
                         name="email"
                         label="Email"
@@ -61,6 +86,7 @@ export const RegisterForm: FC = () => {
                         onChange={handleChange}
                     />
                     <TextField
+                        error={!isPasswordMatch}
                         id="password"
                         name="password"
                         label="Password"
@@ -70,11 +96,14 @@ export const RegisterForm: FC = () => {
                         onChange={handleChange}
                     />
                     <TextField
+                        error={!isPasswordMatch}
                         id="confirm-password"
+                        name="confirmPassword"
                         label="Confirm Password"
                         type="password"
                         autoComplete="current-password"
                         variant="standard"
+                        onChange={handleChange}
                     />
                 </div>
                 <Button size="small" onClick={handleRegister}>Submit</Button>

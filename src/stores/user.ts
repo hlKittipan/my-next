@@ -1,5 +1,6 @@
 import {User} from '@/types/user';
 
 export interface UserState {
-    user?: User,
+    users: User,
+    token: string
 }

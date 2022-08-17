@@ -17,13 +17,13 @@ import Badge from '@mui/material/Badge';
 import {useTheme, ThemeProvider, createTheme} from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useSelector } from 'react-redux';
-import {UserState} from "@/stores/user";
-import {User} from "@/types/user";
-import {AppState} from "@/stores/app";
+import { useSelector, useDispatch } from 'react-redux'
+
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard'];
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
+import {getToken, getUser, resetUser, setToken} from "@/stores/reducers/user";
+import {getIsAuthed, setIsAuthed} from "@/stores/reducers/app";
 
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {
@@ -32,14 +32,12 @@ export const ColorModeContext = React.createContext({
 
 export const ResponsiveAppBar = () => {
     const router = useRouter()
+    const dispatch = useDispatch()
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const isAuthed = useSelector((state: AppState) => state.isAuthed);
-    const session = false;
-    const user: User | undefined = useSelector((state: UserState) => state.user);
-    if (isAuthed) {
-        console.log('Auth')
-    }
+    const isAuthed = useSelector(getIsAuthed);
+    const users = useSelector(getUser);
+    const token = useSelector(getToken)
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -60,7 +58,11 @@ export const ResponsiveAppBar = () => {
     };
 
     const signOut = () => {
-        console.log('signIn');
+        localStorage.removeItem('token');
+        dispatch(setIsAuthed(false))
+        dispatch(resetUser())
+        dispatch(setToken(''))
+        handleCloseUserMenu();
     }
 
     return (
@@ -133,39 +135,42 @@ export const ResponsiveAppBar = () => {
                     </Box>
 
                     <Box sx={{flexGrow: 0}}>
-                        <Tooltip title="Mail">
-                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                                <Badge badgeContent={4} color="error">
-                                    <MailIcon/>
-                                </Badge>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Notification">
-                            <IconButton
-                                size="large"
-                                aria-label="show 17 new notifications"
-                                color="inherit"
-                            >
-                                <Badge badgeContent={17} color="error">
-                                    <NotificationsIcon/>
-                                </Badge>
-                            </IconButton>
-                        </Tooltip>
-                        {user && (
-                            <Tooltip title="Open settings">
-                            <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-haspopup="true"
-                            onClick={handleOpenUserMenu}
-                            color="inherit"
-                            >
-                            <AccountCircle/>
-                            </IconButton>
-                            </Tooltip>
-                        ) }
-                        { !session && (
+
+                        {users && isAuthed && (
+                            <>
+                                <Tooltip title="Mail">
+                                    <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                        <Badge badgeContent={4} color="error">
+                                            <MailIcon/>
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Notification">
+                                    <IconButton
+                                        size="large"
+                                        aria-label="show 17 new notifications"
+                                        color="inherit"
+                                    >
+                                        <Badge badgeContent={17} color="error">
+                                            <NotificationsIcon/>
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Open settings">
+                                    <IconButton
+                                        size="large"
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-haspopup="true"
+                                        onClick={handleOpenUserMenu}
+                                        color="inherit"
+                                    >
+                                        <AccountCircle/>
+                                    </IconButton>
+                                </Tooltip>
+                            </>
+                        )}
+                        {!token && (
                             <Button color="inherit" onClick={() => router.push('/login')}>Login</Button>
                         )}
                         <Tooltip title={theme.palette.mode + " Mode"}>

@@ -1,9 +1,13 @@
 import styles from '@/components/layout.module.css'
-import React, {FC, PropsWithChildren} from "react";
+import React, {FC, PropsWithChildren, useEffect} from "react";
 import Link from 'next/link'
 import {AppHead} from "@/components/layouts/head";
 import {ResponsiveAppBar} from "@/components/layouts/navbar";
 import {Footer} from "@/components/layouts/Footer";
+import {setIsAuthed} from "@/stores/reducers/app";
+import {apiCallPost} from "@/services/api";
+import {setToken, setUserData} from "@/stores/reducers/user";
+import { useSelector, useDispatch } from 'react-redux'
 
 export const siteTitle = 'Next.js Sample Website'
 export interface LayoutProp {
@@ -11,6 +15,26 @@ export interface LayoutProp {
     isHome?: boolean;
 }
 export const Layout:FC<LayoutProp> = (LayoutProp:PropsWithChildren<LayoutProp>, isHome: Boolean) =>{
+    const dispatch = useDispatch();
+
+    // fetch data
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            dispatch(setIsAuthed(true))
+            apiCallPost('/v1/user').then(response  => {
+                const {data: {user}, status} = response?.data
+                if (status === 200) {
+                    dispatch(setToken(user?.token))
+                    dispatch(setUserData(user))
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+
+        }
+    }, [dispatch])
+
     return (
         <div>
             <AppHead />
