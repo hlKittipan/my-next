@@ -22,8 +22,8 @@ import { useSelector, useDispatch } from 'react-redux'
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard'];
 import {useRouter} from 'next/router'
-import {getToken, getUser, resetUser, setToken} from "@/stores/reducers/user";
-import {getIsAuthed, setIsAuthed} from "@/stores/reducers/app";
+import {getToken, getUser, resetUser, setToken} from "@/stores/slices/user";
+import {getIsAuthed, setIsAuthed} from "@/stores/slices/app";
 
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {

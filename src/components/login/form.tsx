@@ -7,8 +7,8 @@ import React, {FC, useState} from "react";
 import {apiCallPost} from "@/services/api";
 import {useRouter} from 'next/router'
 import { useDispatch } from "react-redux";
-import {setToken, setUserData} from "@/stores/reducers/user";
-import {setIsAuthed} from "@/stores/reducers/app";
+import {setToken, setUserData} from "@/stores/slices/user";
+import {setIsAuthed} from "@/stores/slices/app";
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

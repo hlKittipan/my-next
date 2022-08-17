@@ -14,15 +14,15 @@ export const userSlice = createSlice({
     name: 'userSlice',
     initialState,
     reducers: {
-        setUserData(state, action) {
+        setUserData(state: UserState, action) {
             state.users = action.payload
         },
-        setToken(state, action) {
+        setToken(state: UserState, action) {
             const token = action.payload
             state.token = token
             localStorage.setItem('token', token);
         },
-        resetUser(state) {
+        resetUser(state: UserState) {
             state.users = {
                 id: 0,
                 email:''
@@ -35,5 +35,5 @@ export const {setUserData, resetUser, setToken} = userSlice.actions
 
 export default userSlice.reducer;
 
-export const getToken = (state: RootState) => state.user.token
-export const getUser = (state: RootState) => state.user.users
+export const getToken = (state: RootState) => state.userReducers.token
+export const getUser = (state: RootState) => state.userReducers.users

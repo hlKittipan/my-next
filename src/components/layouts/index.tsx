@@ -4,10 +4,10 @@ import Link from 'next/link'
 import {AppHead} from "@/components/layouts/head";
 import {ResponsiveAppBar} from "@/components/layouts/navbar";
 import {Footer} from "@/components/layouts/Footer";
-import {setIsAuthed} from "@/stores/reducers/app";
+import {setIsAuthed} from "@/stores/slices/app";
 import {apiCallPost} from "@/services/api";
-import {setToken, setUserData} from "@/stores/reducers/user";
-import { useSelector, useDispatch } from 'react-redux'
+import {setToken, setUserData} from "@/stores/slices/user";
+import { useAppDispatch } from "@/hooks/index";
 
 export const siteTitle = 'Next.js Sample Website'
 export interface LayoutProp {
@@ -15,8 +15,7 @@ export interface LayoutProp {
     isHome?: boolean;
 }
 export const Layout:FC<LayoutProp> = (LayoutProp:PropsWithChildren<LayoutProp>, isHome: Boolean) =>{
-    const dispatch = useDispatch();
-
+    const dispatch = useAppDispatch();
     // fetch data
     useEffect(() => {
         const token = localStorage.getItem('token');

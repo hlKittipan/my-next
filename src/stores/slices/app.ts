@@ -2,9 +2,12 @@ import { createSlice } from '@reduxjs/toolkit'
 import {AppState} from '@/stores/app';
 import {RootState} from "@/stores/index";
 
-const initialState = {
-    isAuthed: false
-} as AppState
+const initialState: AppState = {
+    isAuthed: false,
+    accessToken: {
+        accessToken: ''
+    }
+}
 
 export const appSlice = createSlice({
     name: 'appSlice',
@@ -17,7 +20,6 @@ export const appSlice = createSlice({
 })
 
 export const { setIsAuthed } = appSlice.actions
-
+export const getIsAuthed = (state: RootState) => state.appReducers.isAuthed
 export default appSlice.reducer;
 
-export const getIsAuthed = (state: RootState) => state.app.isAuthed

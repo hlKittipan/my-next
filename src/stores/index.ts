@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import user from '@/stores/reducers/user';
-import app from '@/stores/reducers/app';
+import userReducers from '@/stores/slices/user';
+import appReducers from '@/stores/slices/app';
 
 const store = configureStore({
     reducer: {
-        user,
-        app,
+        userReducers,
+        appReducers,
     },
+    devTools: process.env.NODE_ENV === "development"
 });
 
 export default store
