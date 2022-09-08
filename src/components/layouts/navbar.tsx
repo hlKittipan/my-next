@@ -59,6 +59,7 @@ export const ResponsiveAppBar = () => {
 
     const signOut = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         dispatch(setIsAuthed(false))
         dispatch(resetUser())
         dispatch(setToken(''))

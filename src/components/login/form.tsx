@@ -1,6 +1,6 @@
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import {ButtonGroup, TextField} from "@mui/material";
+import {ButtonGroup, Snackbar, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import React, {FC, useState} from "react";
@@ -16,6 +16,8 @@ export const SignInForm: FC = () => {
     const router = useRouter()
     const [username, setUsername] = useState('');
     const [isEmailFormat, setIsEmailFormat] = useState(true)
+    const [message, setMessage] = useState(null)
+    const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = event.currentTarget;
@@ -34,17 +36,26 @@ export const SignInForm: FC = () => {
     const handleLogin = () => {
         const data = {email: username, password: password};
         apiCallPost('/login', data).then(response  => {
-            const {user, success} = response?.data
+            const {user, success, message} = response?.data
             if (success) {
                 const {token} = user
                 dispatch(setToken(token))
                 dispatch(setUserData(user))
                 dispatch(setIsAuthed(true))
             }
+
+            if (message) {
+                setMessage(message)
+                setOpen(true);
+            }
         }).catch((err) => {
             console.log(err);
         });
     }
+
+    const handleToClose = () => {
+        setOpen(false);
+    };
     return (
         <Card sx={{maxWidth: 345}}>
             <CardContent>
@@ -73,6 +84,16 @@ export const SignInForm: FC = () => {
                     <Button onClick={handleLogin}>Login</Button>
                     <Button onClick={() => router.push('/register')}>Register</Button>
                 </ButtonGroup>
+                <Snackbar
+                    anchorOrigin={{
+                        horizontal: "center",
+                        vertical: "top",
+                    }}
+                    open={open}
+                    autoHideDuration={5000}
+                    message={message}
+                    onClose={handleToClose}
+                />
             </CardContent>
         </Card>
     );

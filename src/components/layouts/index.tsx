@@ -19,18 +19,11 @@ export const Layout:FC<LayoutProp> = (LayoutProp:PropsWithChildren<LayoutProp>, 
     // fetch data
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token) {
+        const user = localStorage.getItem('user');
+        if (token && user) {
             dispatch(setIsAuthed(true))
-            apiCallPost('/v1/user').then(response  => {
-                const {data: {user}, status} = response?.data
-                if (status === 200) {
-                    dispatch(setToken(user?.token))
-                    dispatch(setUserData(user))
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-
+            dispatch(setToken(token))
+            dispatch(setUserData(JSON.parse(user)))
         }
     }, [dispatch])
 
