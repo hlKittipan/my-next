@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   presets: ["next/babel"],
-  distDir: 'out',
+  distDir: 'build',
 }
 
 module.exports = nextConfig
