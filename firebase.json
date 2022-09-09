@@ -1,0 +1,30 @@
+{
+  "hosting": {
+    "public": "public",
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "nextjs-server"
+      }
+    ],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "functions": {
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "firbease-debug.log",
+      "**/.*",
+      "**/node_modules/**",
+      "components/**",
+      "pages/**",
+      "public/**",
+      "readme.md"
+    ]
+  }
+}
