@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import { useSession, signIn, signOut } from "next-auth/react"
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
@@ -18,19 +17,27 @@ import Badge from '@mui/material/Badge';
 import {useTheme, ThemeProvider, createTheme} from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-
+import { useSelector, useDispatch } from 'react-redux'
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard'];
+import {useRouter} from 'next/router'
+import {getToken, getUser, resetUser, setToken} from "@/stores/slices/user";
+import {getIsAuthed, setIsAuthed} from "@/stores/slices/app";
+
 export const ColorModeContext = React.createContext({
     toggleColorMode: () => {
     }
 });
 
 export const ResponsiveAppBar = () => {
+    const router = useRouter()
+    const dispatch = useDispatch()
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const { data: session } = useSession()
+    const isAuthed = useSelector(getIsAuthed);
+    const users = useSelector(getUser);
+    const token = useSelector(getToken)
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -49,6 +56,15 @@ export const ResponsiveAppBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const signOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        dispatch(setIsAuthed(false))
+        dispatch(resetUser())
+        dispatch(setToken(''))
+        handleCloseUserMenu();
+    }
 
     return (
         <AppBar position="static">
@@ -120,40 +136,43 @@ export const ResponsiveAppBar = () => {
                     </Box>
 
                     <Box sx={{flexGrow: 0}}>
-                        <Tooltip title="Mail">
-                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                                <Badge badgeContent={4} color="error">
-                                    <MailIcon/>
-                                </Badge>
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Notification">
-                            <IconButton
-                                size="large"
-                                aria-label="show 17 new notifications"
-                                color="inherit"
-                            >
-                                <Badge badgeContent={17} color="error">
-                                    <NotificationsIcon/>
-                                </Badge>
-                            </IconButton>
-                        </Tooltip>
-                        {session && (
-                            <Tooltip title="Open settings">
-                            <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-haspopup="true"
-                            onClick={handleOpenUserMenu}
-                            color="inherit"
-                            >
-                            <AccountCircle/>
-                            </IconButton>
-                            </Tooltip>
-                        ) }
-                        { !session && (
-                            <Button color="inherit" onClick={() => signIn()}>Login</Button>
+
+                        {users && isAuthed && (
+                            <>
+                                <Tooltip title="Mail">
+                                    <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                        <Badge badgeContent={4} color="error">
+                                            <MailIcon/>
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Notification">
+                                    <IconButton
+                                        size="large"
+                                        aria-label="show 17 new notifications"
+                                        color="inherit"
+                                    >
+                                        <Badge badgeContent={17} color="error">
+                                            <NotificationsIcon/>
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Open settings">
+                                    <IconButton
+                                        size="large"
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-haspopup="true"
+                                        onClick={handleOpenUserMenu}
+                                        color="inherit"
+                                    >
+                                        <AccountCircle/>
+                                    </IconButton>
+                                </Tooltip>
+                            </>
+                        )}
+                        {!token && (
+                            <Button color="inherit" onClick={() => router.push('/login')}>Login</Button>
                         )}
                         <Tooltip title={theme.palette.mode + " Mode"}>
                             <IconButton sx={{ml: 1}} onClick={colorMode.toggleColorMode} color="inherit">
