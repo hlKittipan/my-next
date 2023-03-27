@@ -36,10 +36,9 @@ export const SignInForm: FC = () => {
     const handleLogin = () => {
         const data = {email: username, password: password};
         apiCallPost('/login', data).then(response  => {
-            const {user, success, message} = response?.data
-            if (success) {
-                const {token} = user
-                dispatch(setToken(token))
+            const {user, statusCode, message, access_token} = response?.data
+            if (statusCode === 201) {
+                dispatch(setToken(access_token))
                 dispatch(setUserData(user))
                 dispatch(setIsAuthed(true))
             }
