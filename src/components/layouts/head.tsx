@@ -1,7 +1,7 @@
 import type {NextPage} from 'next'
 import Head from "next/head";
 import * as React from "react";
-import {siteTitle} from "@/components/layouts/index";
+import {siteTitle} from "@components/layouts/index";
 
 export const AppHead: NextPage = () => {
     return (

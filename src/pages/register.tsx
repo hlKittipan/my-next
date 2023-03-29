@@ -1,5 +1,5 @@
-import {Layout} from "@/components/layouts";
-import {RegisterForm} from '@/components/register/form';
+import {Layout} from "@components/layouts";
+import {RegisterForm} from '@components/register/form';
 import Box from '@mui/material/Box';
 import {NextPage} from "next";
 

@@ -1,13 +1,13 @@
 import '@/styles/globals.css'
 import type {AppProps} from 'next/app'
 import {CacheProvider, EmotionCache} from '@emotion/react';
-import createEmotionCache from "@/plugins/createEmotionCache";
-import {AppHead} from "@/components/layouts/head";
-import {ColorModeContext} from "@/components/layouts/navbar";
+import createEmotionCache from "@plugins/createEmotionCache";
+import {AppHead} from "@components/layouts/head";
+import {ColorModeContext} from "@components/layouts/navbar";
 import * as React from "react";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import CssBaseline from '@mui/material/CssBaseline';
-import store from '@/stores/index';
+import store from '@stores/index';
 import {Provider} from "react-redux";
 import {useMediaQuery} from "@mui/material";
 import {useEffect} from "react";

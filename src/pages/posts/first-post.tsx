@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import {Layout} from '@/components/layouts'
-import profileImage from '@/images/profile.png'
+import {Layout} from '@components/layouts'
+import profileImage from '@images/profile.png'
 
 const Profile = () => (
     <Image

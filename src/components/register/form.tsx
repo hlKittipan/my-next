@@ -5,7 +5,7 @@ import {ButtonGroup, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import React, {FC, useState} from "react";
-import {apiCallPost} from "@/services/api";
+import {apiCallPost} from "@services/api";
 import {useRouter} from 'next/router'
 
 const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

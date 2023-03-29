@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {AppState} from '@/stores/app';
-import {RootState} from "@/stores/index";
+import {AppState} from '@stores/app';
+import {RootState} from "@stores/index";
 
 const initialState: AppState = {
     isAuthed: false,

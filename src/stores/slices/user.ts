@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {UserState} from '@/stores/user';
-import {RootState} from "@/stores/index";
+import {UserState} from '@stores/user';
+import {RootState} from "@stores/index";
 
 const initialState: UserState = {
     users: {

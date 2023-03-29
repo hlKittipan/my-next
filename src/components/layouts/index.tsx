@@ -1,13 +1,13 @@
-import styles from '@/components/layout.module.css'
+import styles from '@components/layout.module.css'
 import React, {FC, PropsWithChildren, useEffect} from "react";
 import Link from 'next/link'
-import {AppHead} from "@/components/layouts/head";
-import {ResponsiveAppBar} from "@/components/layouts/navbar";
-import {Footer} from "@/components/layouts/Footer";
-import {setIsAuthed} from "@/stores/slices/app";
-import {apiCallPost} from "@/services/api";
-import {setToken, setUserData} from "@/stores/slices/user";
-import { useAppDispatch } from "@/hooks/index";
+import {AppHead} from "@components/layouts/head";
+import {ResponsiveAppBar} from "@components/layouts/navbar";
+import {Footer} from "@components/layouts/Footer";
+import {setIsAuthed} from "@stores/slices/app";
+import {apiCallPost} from "@services/api";
+import {setToken, setUserData} from "@stores/slices/user";
+import { useAppDispatch } from "@hooks/index";
 
 export const siteTitle = 'Next.js Sample Website'
 export interface LayoutProp {

@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import {Layout} from '@/components/layouts'
-import {AppBreadCrumbs} from "@/components/layouts/breadcrumbs";
-import styles from "@/styles/Home.module.css";
+import {Layout} from '@components/layouts'
+import {AppBreadCrumbs} from "@components/layouts/breadcrumbs";
+import styles from "@styles/Home.module.css";
 import * as React from "react";
 import {Box} from '@mui/material';
-import {ArticleMeta} from "@/interfaces/article";
-import Card from '@/components/card'
+import {ArticleMeta} from "@interfaces/article";
+import Card from '@components/card'
 
 interface IProps {
     articles: ArticleMeta[];

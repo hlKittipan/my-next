@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { FunctionComponent } from "react";
-import { ArticleMeta } from "@/interfaces/article";
-import styles from "@/styles/card.module.css";
+import { ArticleMeta } from "@interfaces/article";
+import styles from "@styles/card.module.css";
 import Image from "next/image";
-import profileImage from "@/images/profile.png";
+import profileImage from "@images/profile.png";
 
 interface IProps {
     article: ArticleMeta;

@@ -1,5 +1,5 @@
-import styles from '@/styles/article.module.css'
-import {ArticleInfo} from "@/interfaces/article";
+import styles from '@styles/article.module.css'
+import {ArticleInfo} from "@interfaces/article";
 
 interface IProps {
     article: ArticleInfo;
