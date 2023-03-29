@@ -1,4 +1,6 @@
 import axios from "axios";
+import { getCookieValue } from "@helpers/cookies";
+import appConfigs from "@configs/app";
 
 const createApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_END_POINT,
@@ -10,7 +12,7 @@ const createApi = axios.create({
 
 createApi.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token") ?? null;
+    const token = getCookieValue(null, appConfigs.authTokenKey);
     if (token) {
       config.headers = {
         ...config.headers,
@@ -32,5 +34,5 @@ export const apiCallPost = (url: string, data: object = {}) => {
 };
 
 export const apiCallGet = (url: string) => {
-  return createApi.get(url).catch((error) => console.log(error.response));
+  return createApi.get(url);
 };

@@ -9,6 +9,9 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { setToken, setUserData } from "@stores/slices/user";
 import { setIsAuthed } from "@stores/slices/app";
+import { setCookieValue } from "@helpers/cookies";
+import { redirect, redirectHomePage } from "@helpers/route";
+import appConfigs from "@configs/app";
 
 const emailRegEx =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -20,29 +23,44 @@ export const SignInForm: FC = () => {
   const [message, setMessage] = useState(null);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     if (!emailRegEx.test(value)) {
       setIsEmailFormat(false);
-      return false;
+    } else {
+      setIsEmailFormat(true);
     }
-    setIsEmailFormat(true);
     setUsername(value);
   };
+
   const [password, setPassword] = useState("");
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setPassword(value);
   };
   const handleLogin = () => {
-    const data = { email: username, password: password };
-    apiCallPost("/login", data)
-      .then((response) => {
+    const redirectUrl = router.query?.redirect ?? undefined;
+    const data = {
+      username: username,
+      password: password,
+      isEmail: isEmailFormat,
+    };
+    apiCallPost("/auth/login", data)
+      .then(async (response) => {
         const { user, statusCode, message, access_token } = response?.data;
         if (statusCode === 201) {
           dispatch(setToken(access_token));
           dispatch(setUserData(user));
           dispatch(setIsAuthed(true));
+          if (access_token) {
+            setCookieValue(null, appConfigs.authTokenKey, access_token);
+            if (redirectUrl && typeof redirectUrl === "string") {
+              await redirect(redirectUrl);
+            } else {
+              await redirectHomePage();
+            }
+          }
         }
 
         if (message) {
@@ -67,7 +85,6 @@ export const SignInForm: FC = () => {
         <div>
           <TextField
             required
-            error={!isEmailFormat}
             id="username"
             label="Username or E-mail"
             variant="standard"

@@ -71,7 +71,7 @@ export const ResponsiveAppBar = () => {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container>
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -132,6 +132,7 @@ export const ResponsiveAppBar = () => {
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
+                href={page.toLowerCase()}
               >
                 {page}
               </Button>
