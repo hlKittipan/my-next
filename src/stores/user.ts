@@ -1,6 +1,6 @@
-import {User} from "@interfaces/user";
+import { User } from "@interfaces/user";
 
 export interface UserState {
-    users: User,
-    token: string
+  users: User;
+  token: string;
 }

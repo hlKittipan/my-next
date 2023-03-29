@@ -1,6 +1,6 @@
-import {AuthPayload} from "@interfaces/app";
+import { AuthPayload } from "@interfaces/app";
 
 export interface AppState {
-    isAuthed: boolean
-    accessToken: AuthPayload
+  isAuthed: boolean;
+  accessToken: AuthPayload;
 }

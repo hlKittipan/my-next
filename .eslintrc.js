@@ -1,0 +1,12 @@
+module.exports = {
+  extends: [
+    "next/core-web-vitals",
+    "plugin:@next/next/recommended",
+    "plugin:prettier/recommended", // Make sure this is always the last element in the array.
+  ],
+  rules: {
+    "react-hooks/exhaustive-deps": "off",
+    "linebreak-style": 0,
+    "object-curly-spacing": "off",
+  },
+};

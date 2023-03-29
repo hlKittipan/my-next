@@ -1,16 +1,13 @@
 interface ArticleMeta {
-    title: string;
-    slug: string;
-    description: string;
-    thumbnail: string;
+  title: string;
+  slug: string;
+  description: string;
+  thumbnail: string;
 }
 
 interface ArticleInfo {
-    meta: ArticleMeta;
-    content: string;
+  meta: ArticleMeta;
+  content: string;
 }
 
-export type {
-    ArticleMeta,
-    ArticleInfo
-}
+export type { ArticleMeta, ArticleInfo };
