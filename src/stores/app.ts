@@ -1,4 +1,4 @@
-import {AuthPayload} from "@types/app";
+import {AuthPayload} from "@interfaces/app";
 
 export interface AppState {
     isAuthed: boolean
