@@ -34,10 +34,6 @@ export const AppBreadCrumbs = () => {
                 <WhatshotIcon sx={{ mr: 0.5 }} fontSize="inherit" />
                 Accessories
               </Link>
-              <Link underline="hover" color="inherit" href="#">
-                <GrainIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-                New Collection
-              </Link>
               <Typography color="text.primary">Belts</Typography>
             </Breadcrumbs>
           </Box>
