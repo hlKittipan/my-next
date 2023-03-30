@@ -11,6 +11,7 @@ import store from "@stores/index";
 import { Provider } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import { useEffect } from "react";
+import { getCookieValue, setCookieValue } from "@helpers/cookies";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -33,7 +34,7 @@ const App = (props: MyAppProps) => {
     () => ({
       toggleColorMode: () => {
         setMode((prevMode) => {
-          localStorage.setItem("mode", prevMode === "light" ? "dark" : "light");
+          setCookieValue(null, "mode", prevMode === "light" ? "dark" : "light");
           return prevMode === "light" ? "dark" : "light";
         });
       },
@@ -41,7 +42,7 @@ const App = (props: MyAppProps) => {
     []
   );
   useEffect(() => {
-    const mode = localStorage.getItem("mode");
+    const mode = getCookieValue(null, "mode");
     if (mode === "light" || mode === "dark") {
       setMode(mode);
     }
