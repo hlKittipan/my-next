@@ -34,7 +34,7 @@ export const Layout: FC<LayoutProp> = (
     <div>
       <AppHead />
       <ResponsiveAppBar />
-      <main>{LayoutProp.children}</main>
+      <main style={{ minHeight: "100%" }}>{LayoutProp.children}</main>
       {!isHome && (
         <div className={styles.backToHome}>
           <Link href="/">

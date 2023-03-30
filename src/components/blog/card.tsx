@@ -8,7 +8,12 @@ const BlogCard: FunctionComponent<IPropBlog> = ({ blog }) => {
   const slug = blog.title.replaceAll(" ", "-");
   const content = striptags(blog.content).substring(0, 150);
   return (
-    <Link href={`/blog/${slug}`}>
+    <Link
+      href={{
+        pathname: "/blog/[...slug]",
+        query: { slug: [blog.slug, blog._id] },
+      }}
+    >
       <Card sx={{ minWidth: 300, maxWidth: 300, mx: 0.5 }}>
         <CardMedia
           sx={{ height: 140 }}

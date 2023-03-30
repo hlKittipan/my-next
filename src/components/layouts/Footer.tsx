@@ -9,7 +9,6 @@ export const Footer = () => {
         paddingTop: "1rem",
         paddingBottom: "1rem",
         bottom: "0",
-        position: "fixed",
       }}
     >
       <Container maxWidth="lg">
