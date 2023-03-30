@@ -39,7 +39,14 @@ export default function BlogsPage({ blogs }: IPropBlogs) {
 }
 
 export async function getServerSideProps() {
-  const res = await apiCallGet("/blog");
-  const blogs = await res?.data;
-  return { props: { blogs } };
+  try {
+    const res = await apiCallGet("/blog");
+    const blogs = await res?.data;
+    return { props: { blogs } };
+  } catch (e) {
+    console.log(e);
+    return {
+      notFound: true,
+    };
+  }
 }

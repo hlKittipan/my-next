@@ -32,7 +32,7 @@ export const Layout: FC<LayoutProp> = (
   }, [dispatch]);
 
   return (
-    <div>
+    <>
       <AppHead />
       <ResponsiveAppBar />
       <main>
@@ -46,6 +46,6 @@ export const Layout: FC<LayoutProp> = (
         </div>
       )}
       <Footer />
-    </div>
+    </>
   );
 };

@@ -6,7 +6,6 @@ import Document, {
   Head,
   NextScript,
 } from "next/document";
-import { theme } from "@components/themes";
 import createEmotionServer from "@emotion/server/create-instance";
 import createEmotionCache from "@plugins/createEmotionCache";
 
@@ -17,14 +16,6 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        {/*<Head>*/}
-        {/*    /!* PWA primary color *!/*/}
-        {/*    <meta name="theme-color" content={theme.palette.primary.main} />*/}
-        {/*    <link*/}
-        {/*        rel="stylesheet"*/}
-        {/*        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"*/}
-        {/*    />*/}
-        {/*</Head>*/}
         <Head />
         <body>
           <Main />
@@ -68,7 +59,6 @@ MyDocument.getInitialProps = async (ctx) => {
 
   ctx.renderPage = () =>
     originalRenderPage({
-      // eslint-disable-next-line react/display-name
       enhanceApp: (App: any) => (props) =>
         <App emotionCache={cache} {...props} />,
     });
@@ -88,10 +78,6 @@ MyDocument.getInitialProps = async (ctx) => {
 
   return {
     ...initialProps,
-    // Styles fragment is rendered after the app and page rendering finish.
-    styles: [
-      ...React.Children.toArray(initialProps.styles),
-      ...emotionStyleTags,
-    ],
+    emotionStyleTags,
   };
 };
