@@ -29,14 +29,14 @@ export default function BlogContentPage({ blog }: IPropBlog) {
         >
           <Grid item xs={8}>
             <Card>
-              <CardHeader title={blog.title} />
+              <CardHeader title={blog?.title} />
               <CardMedia
                 sx={{ height: 140 }}
                 image="/static/images/cards/contemplative-reptile.jpg"
                 title="green iguana"
               />
               <CardContent>
-                <span dangerouslySetInnerHTML={{ __html: blog.content }} />
+                <span dangerouslySetInnerHTML={{ __html: blog?.content }} />
               </CardContent>
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">

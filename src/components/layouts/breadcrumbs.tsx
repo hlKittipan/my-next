@@ -13,7 +13,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 export const AppBreadCrumbs = () => {
   return (
-    <Container sx={{ pt: 2 }}>
+    <Container sx={{ pt: 2, pb: 2 }}>
       <Grid container spacing={3} justifyContent="center" alignItems="stretch">
         <Grid item xs={12}>
           <Box>

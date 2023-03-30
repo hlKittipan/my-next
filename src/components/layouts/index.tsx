@@ -8,6 +8,7 @@ import { setIsAuthed } from "@stores/slices/app";
 import { apiCallPost } from "@services/api";
 import { setToken, setUserData } from "@stores/slices/user";
 import { useAppDispatch } from "@hooks/index";
+import { Container } from "@mui/material";
 
 export const siteTitle = "Next.js Sample Website";
 export interface LayoutProp {
@@ -34,7 +35,9 @@ export const Layout: FC<LayoutProp> = (
     <div>
       <AppHead />
       <ResponsiveAppBar />
-      <main style={{ minHeight: "100%" }}>{LayoutProp.children}</main>
+      <main>
+        <Container>{LayoutProp.children}</Container>
+      </main>
       {!isHome && (
         <div className={styles.backToHome}>
           <Link href="/">
