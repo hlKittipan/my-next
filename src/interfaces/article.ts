@@ -1,3 +1,5 @@
+import { User } from "@interfaces/user";
+
 export interface ArticleMeta {
   title: string;
   slug: string;
@@ -24,7 +26,7 @@ export interface Blog {
   content: string;
   slug: string;
   tags: string[];
-  author: string;
+  author: User;
   createdAt: string;
   updatedAt: string;
 }

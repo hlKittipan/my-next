@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducers from "@stores/slices/user";
-import appReducers from "@stores/slices/app";
+import user from "@stores/slices/user";
 
 const store = configureStore({
   reducer: {
-    userReducers,
-    appReducers,
+    user,
   },
   devTools: process.env.NODE_ENV === "development",
 });
