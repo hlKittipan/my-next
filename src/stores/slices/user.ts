@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserState } from "@stores/states/user";
 import { RootState } from "@stores/index";
-import { setCookieValue } from "@helpers/cookies";
+import { deleteCookieValue, setCookieValue } from "@helpers/cookies";
+import appConfigs from "@configs/app";
 
 const initialState: UserState = {
   isAuthed: false,
@@ -13,7 +14,6 @@ const initialState: UserState = {
     lastName: "",
   },
   token: "",
-  isShowSignInModalForm: false,
 };
 
 export const userSlice = createSlice({
@@ -22,38 +22,32 @@ export const userSlice = createSlice({
   reducers: {
     setIsAuthed(state, action) {
       state.isAuthed = action.payload;
+      setCookieValue(null, appConfigs.isAuth, action.payload);
     },
     setUserData(state: UserState, action) {
       state.users = action.payload;
-      setCookieValue(null, "user", action.payload, true);
+      setCookieValue(null, appConfigs.userDataKey, action.payload, true);
     },
     setToken(state: UserState, action) {
       const token = action.payload;
       state.token = token;
-      setCookieValue(null, "token", token);
+      setCookieValue(null, appConfigs.authTokenKey, token);
     },
     resetUser(state: UserState) {
       state.isAuthed = false;
       state.users = { email: "", id: 0, lastName: "", name: "", username: "" };
-    },
-    toggleShowSignInFormModal(state: UserState) {
-      state.isShowSignInModalForm = !state.isShowSignInModalForm;
+      deleteCookieValue(null, appConfigs.userDataKey);
+      deleteCookieValue(null, appConfigs.authTokenKey);
+      deleteCookieValue(null, appConfigs.isAuth);
     },
   },
 });
 
-export const {
-  setUserData,
-  resetUser,
-  setToken,
-  setIsAuthed,
-  toggleShowSignInFormModal,
-} = userSlice.actions;
+export const { setUserData, resetUser, setToken, setIsAuthed } =
+  userSlice.actions;
 
 export default userSlice.reducer;
 
 export const getToken = (state: RootState) => state.user.token;
 export const getUser = (state: RootState) => state.user.users;
 export const getIsAuthed = (state: RootState) => state.user.isAuthed;
-export const getIsShowSignInFormModal = (state: RootState) =>
-  state.user.isShowSignInModalForm;

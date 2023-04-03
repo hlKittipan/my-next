@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import UserMenu from "@components/Layout/UserMenu";
 import SignInButton from "@components/User/Form/SignIn";
@@ -11,7 +11,10 @@ import {
   resetUser,
   setIsAuthed,
   setToken,
+  setUserData,
 } from "@stores/slices/user";
+import { getCookieValue } from "@helpers/cookies";
+import appConfigs from "@configs/app";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
@@ -21,11 +24,24 @@ const Navbar = () => {
   const users = useSelector(getUser);
   const token = useSelector(getToken);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getCookieValue(null, appConfigs.authTokenKey);
+      const user = await getCookieValue(null, appConfigs.userDataKey);
+      if (token && user) {
+        dispatch(setIsAuthed(true));
+        dispatch(setToken(token));
+        dispatch(setUserData(JSON.parse(user)));
+      }
+    };
+    fetchData();
+  }, [dispatch]);
+
   const signOut = () => {
     dispatch(setIsAuthed(false));
     dispatch(resetUser());
-    dispatch(setToken(""));
   };
+
   return (
     <nav className="z-10 w-full bg-gray-900 shadow">
       <div className="mx-auto justify-between px-4 md:flex md:items-center md:px-8 lg:max-w-7xl">
@@ -93,7 +109,7 @@ const Navbar = () => {
               </li>
               {!isAuthed && (
                 <li className="text-white">
-                  <SignInButton />
+                  <SignInButton isModal={true} />
                 </li>
               )}
               {isAuthed && (

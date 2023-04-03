@@ -14,9 +14,7 @@ const createApi = axios.create({
 });
 
 export const apiCallPost = (url: string, data: object = {}) => {
-  return createApi
-    .post(url, data)
-    .catch((error) => console.log(error.response));
+  return createApi.post(url, data);
 };
 
 export const apiCallGet = (url: string) => {

@@ -7,14 +7,20 @@ import { setToken, setUserData, setIsAuthed } from "@stores/slices/user";
 import { setCookieValue } from "@helpers/cookies";
 import appConfigs from "@configs/app";
 import { redirect, redirectHomePage } from "@helpers/route";
+import { emailRegEx } from "@helpers/form";
+
+interface SignInButtonProps {
+  isModal: boolean;
+}
 
 interface SignInModalProps {
   isOpen: boolean;
   onClose: () => void;
+  handleUsernameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePasswordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleLogin: () => void;
+  message: string | null;
 }
-
-const emailRegEx =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,2|3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 Modal.setAppElement("#__next");
 
@@ -32,7 +38,7 @@ const customStyles = {
   },
 };
 
-export default function SignInButton() {
+export default function SignInButton({ isModal }: SignInButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const handleOpenModal = () => {
     setIsOpen(!isOpen);
@@ -41,19 +47,7 @@ export default function SignInButton() {
   const closeModal = () => {
     setIsOpen(false);
   };
-  return (
-    <>
-      <button
-        className="rounded-full bg-fuchsia-500 px-5 py-2 text-sm font-semibold leading-5 text-white hover:bg-fuchsia-700"
-        onClick={() => handleOpenModal()}
-      >
-        Login
-      </button>
-      {isOpen && <SignIn isOpen={isOpen} onClose={closeModal} />}
-    </>
-  );
-}
-const SignIn = ({ isOpen, onClose }: SignInModalProps) => {
+
   const router = useRouter();
   const [isEmailFormat, setIsEmailFormat] = useState(true);
   const [username, setUsername] = useState("");
@@ -86,28 +80,59 @@ const SignIn = ({ isOpen, onClose }: SignInModalProps) => {
       .then(async (response) => {
         const { user, statusCode, message, access_token } = response?.data;
         if (statusCode === 201) {
-          dispatch(setToken(access_token));
           dispatch(setUserData(user));
           dispatch(setIsAuthed(true));
-          if (access_token) {
-            setCookieValue(null, appConfigs.authTokenKey, access_token);
-            if (redirectUrl && typeof redirectUrl === "string") {
-              await redirect(redirectUrl);
-            } else {
-              await redirectHomePage();
-            }
+          dispatch(setToken(access_token));
+          setCookieValue(null, appConfigs.authTokenKey, access_token);
+          if (isModal) {
+            setIsOpen(false);
+          } else if (redirectUrl && typeof redirectUrl === "string") {
+            await redirect(redirectUrl);
+          } else {
+            await redirectHomePage();
           }
         }
 
         if (message) {
           setMessage(message);
-          onClose();
         }
       })
       .catch((err) => {
-        console.log(err);
+        const { message } = err?.response?.data;
+        if (message) {
+          setMessage(message);
+        }
       });
   };
+  return (
+    <>
+      <button
+        className="rounded-full bg-fuchsia-500 px-5 py-2 text-sm font-semibold leading-5 text-white hover:bg-fuchsia-700"
+        onClick={() => handleOpenModal()}
+      >
+        Login
+      </button>
+      {isOpen && (
+        <SignIn
+          isOpen={isOpen}
+          onClose={closeModal}
+          handleUsernameChange={handleUsernameChange}
+          handlePasswordChange={handlePasswordChange}
+          handleLogin={handleLogin}
+          message={message}
+        />
+      )}
+    </>
+  );
+}
+const SignIn = ({
+  isOpen,
+  onClose,
+  handleUsernameChange,
+  handlePasswordChange,
+  handleLogin,
+  message,
+}: SignInModalProps) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -119,6 +144,7 @@ const SignIn = ({ isOpen, onClose }: SignInModalProps) => {
         <div className="mb-1 items-end text-black">
           <button onClick={onClose}>X</button>
         </div>
+        {message && <p className="text-xs italic text-red-500">{message}</p>}
         <div className="mb-4">
           <label
             className="mb-2 block text-sm font-bold text-gray-700"
@@ -142,15 +168,12 @@ const SignIn = ({ isOpen, onClose }: SignInModalProps) => {
             Password
           </label>
           <input
-            className="focus:shadow-outline mb-3 w-full appearance-none rounded border border-red-500 px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+            className="focus:shadow-outline mb-3 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
             id="password"
             type="password"
             placeholder="******************"
             onChange={handlePasswordChange}
           />
-          <p className="text-xs italic text-red-500">
-            Please choose a password.
-          </p>
         </div>
         <div className="flex items-center justify-between">
           <button
