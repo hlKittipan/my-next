@@ -8,6 +8,9 @@ const initialState: UserState = {
   users: {
     id: 0,
     email: "",
+    username: "",
+    name: "",
+    lastName: "",
   },
   token: "",
   isShowSignInModalForm: false,
@@ -31,10 +34,7 @@ export const userSlice = createSlice({
     },
     resetUser(state: UserState) {
       state.isAuthed = false;
-      state.users = {
-        id: 0,
-        email: "",
-      };
+      state.users = { email: "", id: 0, lastName: "", name: "", username: "" };
     },
     toggleShowSignInFormModal(state: UserState) {
       state.isShowSignInModalForm = !state.isShowSignInModalForm;
