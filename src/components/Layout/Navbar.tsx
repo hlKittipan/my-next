@@ -18,24 +18,8 @@ import appConfigs from "@configs/app";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
-  const router = useRouter();
   const dispatch = useDispatch();
   const isAuthed = useSelector(getIsAuthed);
-  const users = useSelector(getUser);
-  const token = useSelector(getToken);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = await getCookieValue(null, appConfigs.authTokenKey);
-      const user = await getCookieValue(null, appConfigs.userDataKey);
-      if (token && user) {
-        dispatch(setIsAuthed(true));
-        dispatch(setToken(token));
-        dispatch(setUserData(JSON.parse(user)));
-      }
-    };
-    fetchData();
-  }, [dispatch]);
 
   const signOut = () => {
     dispatch(setIsAuthed(false));
