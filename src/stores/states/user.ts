@@ -2,6 +2,6 @@ import { User } from "@interfaces/user";
 
 export interface UserState {
   isAuthed: boolean;
-  users: User;
+  users?: User;
   token: string;
 }

@@ -4,8 +4,6 @@ import { useDispatch } from "react-redux";
 import { apiCallPost } from "@services/api";
 import { useRouter } from "next/router";
 import { setToken, setUserData, setIsAuthed } from "@stores/slices/user";
-import { setCookieValue } from "@helpers/cookies";
-import appConfigs from "@configs/app";
 import { redirect, redirectHomePage } from "@helpers/route";
 import { emailRegEx } from "@helpers/form";
 
@@ -83,7 +81,6 @@ export default function SignInButton({ isModal }: SignInButtonProps) {
           dispatch(setUserData(user));
           dispatch(setIsAuthed(true));
           dispatch(setToken(access_token));
-          setCookieValue(null, appConfigs.authTokenKey, access_token);
           if (isModal) {
             setIsOpen(false);
           } else if (redirectUrl && typeof redirectUrl === "string") {

@@ -11,6 +11,8 @@ export const setCookieValue = (
   return nookies.set(ctx, key, convertedValue, {
     maxAge: 30 * 24 * 60 * 60,
     path: "/",
+    sameSite: "none",
+    secure: process.env.NODE_ENV === "production", // Only set this to false if you're developing locally over HTTP
   });
 };
 

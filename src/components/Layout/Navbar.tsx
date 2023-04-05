@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import UserMenu from "@components/Layout/UserMenu";
 import SignInButton from "@components/User/Form/SignIn";
-import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getIsAuthed,
-  getToken,
-  getUser,
-  resetUser,
-  setIsAuthed,
-  setToken,
-  setUserData,
-} from "@stores/slices/user";
-import { getCookieValue } from "@helpers/cookies";
-import appConfigs from "@configs/app";
+import { getIsAuthed, resetUser, setIsAuthed } from "@stores/slices/user";
 
 const Navbar = () => {
-  const [navbar, setNavbar] = useState(false);
+  const [navbar, setNavbar] = useState<boolean>(false);
   const dispatch = useDispatch();
   const isAuthed = useSelector(getIsAuthed);
 

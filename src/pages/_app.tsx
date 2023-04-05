@@ -4,6 +4,8 @@ import { ThemeProvider } from "next-themes";
 import Head from "next/head";
 import store from "@stores/index";
 import { Provider } from "react-redux";
+import { AuthProvider } from "@services/AuthProvider";
+import { DefaultSeo } from "next-seo";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -14,9 +16,26 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ThemeProvider attribute="class">
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <DefaultSeo
+        title="Next SEO Example"
+        description="Next SEO is a plug in that makes managing your SEO easier in Next.js projects."
+        openGraph={{
+          type: "website",
+          locale: "en_IE",
+          url: process.env.DEFAULT_DOMAIN,
+          siteName: process.env.DEFAULT_DOMAIN,
+        }}
+        twitter={{
+          handle: "@handle",
+          site: "@site",
+          cardType: "summary_large_image",
+        }}
+      />
+      <AuthProvider>
+        <ThemeProvider attribute="class">
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </AuthProvider>
     </Provider>
   );
 }

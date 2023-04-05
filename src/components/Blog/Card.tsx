@@ -2,18 +2,33 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IPropBlog } from "@interfaces/article";
-import striptags from "striptags";
+import { ArticleJsonLd } from "next-seo";
 
 const BlogCard = ({ blog }: IPropBlog) => {
-  const title = striptags(blog.title).substring(0, 20);
-  const content = striptags(blog.content).substring(0, 100);
+  const blogLink = {
+    pathname: "/blog/[...slug]",
+    query: { slug: [blog.slug, blog._id] },
+  };
   return (
-    <Link
-      href={{
-        pathname: "/blog/[...slug]",
-        query: { slug: [blog.slug, blog._id] },
-      }}
-    >
+    <Link href={blogLink}>
+      <ArticleJsonLd
+        useAppDir={true}
+        url={`${blogLink}`}
+        title={blog.title}
+        images={["https://picsum.photos/600/400/?random"]}
+        datePublished={blog.createdAt}
+        dateModified={blog.updatedAt}
+        authorName={[
+          {
+            name: blog.author.username,
+            url: "https://picsum.photos/32/32/?random",
+          },
+        ]}
+        publisherName={blog.author.username}
+        publisherLogo="https://picsum.photos/32/32/?random"
+        description={blog.content}
+        isAccessibleForFree={true}
+      />
       <div className="flex min-h-full w-full flex-col rounded-lg bg-gray-300 text-black shadow-lg">
         <Image
           alt="Placeholder"
@@ -23,8 +38,8 @@ const BlogCard = ({ blog }: IPropBlog) => {
           height={400}
         />
         <div className="w-full p-1 md:p-2">
-          <h1 className="text-md font-bold">{title}</h1>
-          <p className="h-14 text-sm">{content}</p>
+          <h1 className="text-md font-bold">{blog.title}</h1>
+          <p className="h-14 text-sm">{blog.content}</p>
         </div>
         <div className="flex w-full items-center justify-between p-1 md:p-2">
           <Image
@@ -34,9 +49,11 @@ const BlogCard = ({ blog }: IPropBlog) => {
             width={32}
             height={32}
           />
-          <div className="inline">
+          <div className="text-end">
             <p className="ml-2 text-sm">{blog.author.username}</p>
-            <p className="text-grey-darker ml-2 text-right text-xs">11/1/19</p>
+            <p className="text-grey-darker ml-2 text-right text-xs">
+              {blog.createdAt}
+            </p>
           </div>
         </div>
       </div>

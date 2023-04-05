@@ -6,13 +6,6 @@ import appConfigs from "@configs/app";
 
 const initialState: UserState = {
   isAuthed: false,
-  users: {
-    id: 0,
-    email: "",
-    username: "",
-    name: "",
-    lastName: "",
-  },
   token: "",
 };
 
@@ -22,7 +15,7 @@ export const userSlice = createSlice({
   reducers: {
     setIsAuthed(state, action) {
       state.isAuthed = action.payload;
-      setCookieValue(null, appConfigs.isAuth, action.payload);
+      setCookieValue(null, appConfigs.isAuthKey, action.payload);
     },
     setUserData(state: UserState, action) {
       state.users = action.payload;
@@ -38,7 +31,7 @@ export const userSlice = createSlice({
       state.users = { email: "", id: 0, lastName: "", name: "", username: "" };
       deleteCookieValue(null, appConfigs.userDataKey);
       deleteCookieValue(null, appConfigs.authTokenKey);
-      deleteCookieValue(null, appConfigs.isAuth);
+      deleteCookieValue(null, appConfigs.isAuthKey);
     },
   },
 });
