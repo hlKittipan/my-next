@@ -75,7 +75,7 @@ const Navbar = () => {
                 <Link href="/blog">Blogs</Link>
               </li>
               <li className="font-bold text-white hover:text-fuchsia-600">
-                <Link href="/about">About US</Link>
+                <Link href="/admin/blog">Admin</Link>
               </li>
               <li className="font-bold text-white hover:text-fuchsia-600">
                 <Link href="/contact">Contact US</Link>
