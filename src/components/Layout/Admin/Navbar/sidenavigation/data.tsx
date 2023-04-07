@@ -4,6 +4,7 @@ import CreditsIcon from "@components/Layout/Admin/Navbar/sidenavigation/icons/cr
 import ArchivesIcon from "@components/Layout/Admin/Navbar/sidenavigation/icons/archives";
 import SettingsIcon from "@components/Layout/Admin/Navbar/sidenavigation/icons/settings";
 import DocumentationIcon from "@components/Layout/Admin/Navbar/sidenavigation/icons/documentation";
+import BookIcon from "@components/Layout/Admin/Navbar/sidenavigation/icons/books";
 
 const data = [
   {
@@ -15,6 +16,11 @@ const data = [
     title: "Status",
     icon: <StatusIcon />,
     link: "/admin/status",
+  },
+  {
+    title: "Blog",
+    icon: <BookIcon />,
+    link: "/admin/blog",
   },
   {
     title: "Archives",
