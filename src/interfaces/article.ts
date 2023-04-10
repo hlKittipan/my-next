@@ -30,3 +30,14 @@ export interface Blog {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface UserProgressProps {
+  backgroundColor: string;
+  createdAt: string;
+  position: string;
+  userProgressStatus: string;
+  progressPercent: string;
+  progressColor: string;
+  progressColorText: string;
+  expireTime: string;
+}

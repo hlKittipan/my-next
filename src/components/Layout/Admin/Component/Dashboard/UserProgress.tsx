@@ -1,14 +1,4 @@
-import { size } from "lodash";
-
-interface Props {
-  backgroundColor: string;
-  createdAt: string;
-  position: string;
-  userProgressStatus: string;
-  progressPercent: string;
-  progressColor: string;
-  expireTime: string;
-}
+import { UserProgressProps } from "@interfaces/article";
 const UserProgress = ({
   backgroundColor,
   createdAt,
@@ -16,8 +6,9 @@ const UserProgress = ({
   userProgressStatus,
   progressPercent,
   progressColor,
+  progressColorText,
   expireTime,
-}: Props) => {
+}: UserProgressProps) => {
   return (
     <div className="w-full dark:text-gray-900 md:w-4/12">
       <div className="p-2">
@@ -33,7 +24,7 @@ const UserProgress = ({
             <p className="m-0 text-sm font-bold ">Progress</p>
             <div className="mx-0 my-2 h-1 w-full overflow-hidden rounded-md bg-white">
               <span
-                className={`block h-1 rounded-md bg-${progressColor}`}
+                className={`block h-1 rounded-md ${progressColor}`}
                 style={{ width: `${progressPercent}` }}
               />
             </div>
@@ -70,7 +61,9 @@ const UserProgress = ({
                 </svg>
               </button>
             </div>
-            <div className={`flex flex-shrink-0 rounded-lg px-4 py-2 text-sm font-bold text-${progressColor}`}>
+            <div
+              className={`flex flex-shrink-0 rounded-lg px-4 py-2 text-sm font-bold ${progressColorText}`}
+            >
               {expireTime}
             </div>
           </div>

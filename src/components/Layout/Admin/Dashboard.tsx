@@ -1,25 +1,18 @@
 import UserProgress from "@components/Layout/Admin/Component/Dashboard/UserProgress";
-
+import { UserProgressProps } from "@interfaces/article";
 interface Props {
   title: string;
 }
-interface DataProps {
-  backgroundColor: string;
-  createdAt: string;
-  position: string;
-  userProgressStatus: string;
-  progressPercent: string;
-  progressColor: string;
-  expireTime: string;
-}
-const items: DataProps[] = [
+
+const items: UserProgressProps[] = [
   {
     backgroundColor: "bg-amber-100",
     createdAt: "December 10, 2020",
     position: "Web Designing",
     userProgressStatus: "Prototyping",
     progressPercent: "60%",
-    progressColor: "yellow-700",
+    progressColor: "bg-yellow-700",
+    progressColorText: "text-yellow-700",
     expireTime: "2 Days Left",
   },
   {
@@ -28,7 +21,8 @@ const items: DataProps[] = [
     position: "UX/UI Design",
     userProgressStatus: "Prototyping",
     progressPercent: "50%",
-    progressColor: "indigo-700",
+    progressColor: "bg-indigo-700",
+    progressColorText: "text-indigo-700",
     expireTime: "12 Days Left",
   },
   {
@@ -37,7 +31,8 @@ const items: DataProps[] = [
     position: "Full-Stack developer",
     userProgressStatus: "Prototyping",
     progressPercent: "80%",
-    progressColor: "green-700",
+    progressColor: "bg-green-700",
+    progressColorText: "text-green-700",
     expireTime: "5 Days Left",
   },
   {
@@ -46,7 +41,8 @@ const items: DataProps[] = [
     position: "Backend developer",
     userProgressStatus: "Prototyping",
     progressPercent: "70%",
-    progressColor: "blue-700",
+    progressColor: "bg-blue-700",
+    progressColorText: "text-blue-700",
     expireTime: "7 Days Left",
   },
   {
@@ -55,7 +51,8 @@ const items: DataProps[] = [
     position: "Frontend developer",
     userProgressStatus: "Prototyping",
     progressPercent: "10%",
-    progressColor: "indigo-700",
+    progressColor: "bg-indigo-700",
+    progressColorText: "text-indigo-700",
     expireTime: "5 Days Left",
   },
   {
@@ -64,7 +61,8 @@ const items: DataProps[] = [
     position: "Project manager",
     userProgressStatus: "Prototyping",
     progressPercent: "90%",
-    progressColor: "purple-700",
+    progressColor: "bg-purple-700",
+    progressColorText: "text-purple-700",
     expireTime: "50 Days Left",
   },
 ];
@@ -132,7 +130,7 @@ const BoardStatus = ({ title }: Props) => (
         </div>
       </div>
       <div className="flex flex-wrap">
-        {items?.map((data: DataProps, i) => (
+        {items?.map((data: UserProgressProps, i) => (
           <UserProgress key={i} {...data} />
         ))}
       </div>
