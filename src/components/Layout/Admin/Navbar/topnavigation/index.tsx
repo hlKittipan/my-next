@@ -1,13 +1,17 @@
 import { useToggle } from "@components/Layout/Admin/Provider/context";
+import { RefObject } from "react";
 
 export default function TopNavigation() {
   const { toggle } = useToggle();
+  const { ref } = useToggle();
+
   return (
     <header className="relative z-10 h-20 items-center">
       <div className="flex-center relative z-10 mx-auto flex h-full flex-col justify-center px-3 text-white">
         <div className="lg:max-w-68 relative flex w-full items-center pl-1 sm:ml-0 sm:pr-2">
           <div className="group relative flex h-full w-12 items-center">
             <button
+              ref={ref as RefObject<HTMLButtonElement>}
               type="button"
               aria-expanded="false"
               aria-label="Toggle sidenav"

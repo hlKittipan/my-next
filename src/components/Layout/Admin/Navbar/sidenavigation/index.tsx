@@ -20,10 +20,9 @@ const style = {
 };
 
 export default function SideNavigation({ mobilePosition }: Props) {
-  const { open, ref } = useToggle();
+  const { open } = useToggle();
   return (
     <aside
-      ref={ref as RefObject<HTMLDivElement>}
       className={`${style.default} ${style.mobilePosition[mobilePosition]} 
         ${open ? style.open : style.close} ${css.scrollbar}`}
     >

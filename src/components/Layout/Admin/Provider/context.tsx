@@ -13,7 +13,7 @@ const Context = React.createContext<ToggleContextType>({
 });
 export default function DashboardProvider({ children }: PropsWithChildren) {
   const [open, setOpen] = React.useState<boolean>(false);
-  const ref = React.useRef<HTMLElement | null>(null);
+  const ref = React.useRef<HTMLButtonElement | null>(null);
   const router = useRouter();
 
   const toggle = React.useCallback(() => {
@@ -40,10 +40,9 @@ export default function DashboardProvider({ children }: PropsWithChildren) {
 
   // close side navigation on click outside
   React.useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
+    const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
       // change the event type
-      if (!ref.current?.contains(event.target as Node)) {
-        // add type assertion
+      if (ref.current && !ref.current?.contains(event.target as Node)) {
         if (!open) return;
         setOpen(false);
       }
